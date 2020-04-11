@@ -1,9 +1,11 @@
-import 'dart:convert';
-
+import 'package:clima/services/networking.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/services/location.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
+/// This class uses the location and networkhelper classes.
+///
+///
+const String apiKey = '80e5047a87f2b3bc9ab4587a256a47fe';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -11,40 +13,38 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  // initialization variables
+  double latitude;
+  double longitude;
+
   @override
   void initState() {
     super.initState();
-    getLocation();
+    // 1. getLocation gets called.
+    getLocationData();
   }
 
-  void getLocation() async {
+  // 2. A object from the location class is created and the getCurrentLocation is initialised from the Location class.
+  void getLocationData() async {
     Location location = Location();
-    await location.getCurrentLocation();
-    // await means do not print the lon/lat until location.getCurrentLocation has completed.
-    print(location.longitude);
-    print(location.latitude);
-  }
+    await location
+        .getCurrentLocation(); // 3. await means do not print the lon/lat until location.getCurrentLocation has completed.
 
-  void getData() async {
-    http.Response response = await http
-        .get('https://samples.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=439d4b804bc8187953eb36d2a8c26a02');
-    if (response.statusCode == 200) {
-      String data = response.body;
+    // 5. lon and lat received from getCurrentLocation and stored in longitude/latitude.
+    longitude = location.longitude;
+    latitude = location.latitude;
 
-      var decodedData = jsonDecode(data);
+    // 6. NetworkHelper takes the API url as a parameter which is processed in the NetworkHelper class.
+    NetworkHelper networkHelper =
+        NetworkHelper('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
 
-      double temp = decodedData['main']['temp'];
-      int condition = decodedData['weather'][0]['id'];
-      String cityName = jsonDecode(data)['name'];
-      print('$temp $condition $cityName');
-    } else {
-      print(response.statusCode);
-    }
+    // 10. getData is stored in to weatherData.
+    var weatherData = await networkHelper.getData();
+    print(weatherData);
   }
 
   @override
   Widget build(BuildContext context) {
-    getData();
     return Scaffold();
   }
 }
