@@ -17,10 +17,8 @@ class NetworkHelper {
     if (response.statusCode == 200) {
       String data = response.body;
 
-      //  8. jsonDecode takes data as a parameter which is stored in decodedData.
-      var decodedData = jsonDecode(data);
-      // 9. decodedData is returned as a future.
-      return decodedData;
+      //  8. jsonDecode takes data as a parameter which is is returned to getData as Future type.
+      return jsonDecode(data);
     } else {
       print(response.statusCode);
     }
