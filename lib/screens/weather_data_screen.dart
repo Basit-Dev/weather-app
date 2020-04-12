@@ -1,12 +1,13 @@
+import 'package:clima/services/update_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:clima/services/weather.dart';
-
 import 'city_screen.dart';
 
 class LocationScreen extends StatefulWidget {
+  // Location weather variable to store the weather of the GPS location.
   final locationWeather;
-
+  // Constructor to initialise the variable.
   LocationScreen({this.locationWeather});
 
   @override
@@ -14,40 +15,21 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  // Two objects created for the WeatherModel and UpdateWeatherData class.
   WeatherModel weatherModel = WeatherModel();
-  int temperture;
-  String cityName;
-  String weatherIcon;
-  String weatherMessage;
+  UpdateWeatherData updateWeatherData = UpdateWeatherData();
 
   @override
   void initState() {
-    updateUI(widget.locationWeather);
+    // initialised State for the updateWeatherData variable.
+    updateWeatherData.updateUI(widget.locationWeather);
     super.initState();
   }
 
-  // We use dynamic as type because weatherData is a var.
-  void updateUI(dynamic weatherData) {
-    // 3. lon/lat stored in weatherData from push
-    // 8A city stored in weatherData from cityWeatherData
+  void getUI(dynamic weatherData) {
     setState(() {
-      if (weatherData == null) {
-        temperture = 0;
-        weatherIcon = 'Error';
-        weatherMessage = 'Unable to get weather data';
-        cityName = '';
-        return; // return ends the method.
-      }
-      double temp = weatherData['main']['temp'];
-      temperture = temp.toInt();
-      weatherMessage = weatherModel.getMessage(temperture);
-      // The var condition can only be used inside this method updateUI, if you want to use it in other places it needs to be declared
-      // where the other variables are placed at the top.
-      var condition = weatherData['weather'][0]['id'];
-      weatherIcon = weatherModel.getWeatherIcon(condition);
-      cityName = weatherData['name'];
-      // 4. After the above is processed the location_screen displays the da.ta in the appropriate text fields
-      // 9A After the above is processed cityName is displayed in the city text field.
+      // Every time the weatherData updates in the UI the state will change an display the new information.
+      updateWeatherData.updateUI(weatherData);
     });
   }
 
@@ -57,7 +39,7 @@ class _LocationScreenState extends State<LocationScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/location_background.jpg'),
+            image: AssetImage('images/cloudy_background.jpg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.8), BlendMode.dstATop),
           ),
@@ -74,7 +56,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   FlatButton(
                     onPressed: () async {
                       var weatherData = await weatherModel.getLocationWeather();
-                      updateUI(weatherData);
+                      getUI(weatherData);
                     },
                     child: Icon(
                       Icons.near_me,
@@ -97,7 +79,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         // 5A TypeNamed gets passed to the getCityWeather method
                         var cityWeatherData = await weatherModel.getCityWeather(typedNamed);
                         // 7A weatherData now holds the NetworkHelper url which gets passed to the updateUI method
-                        updateUI(cityWeatherData);
+                        getUI(cityWeatherData);
                       }
                     },
                     child: Icon(
@@ -112,11 +94,11 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '$temperture°',
+                      '${updateWeatherData.temperture}°',
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '$weatherIcon',
+                      '${updateWeatherData.weatherIcon}',
                       style: kConditionTextStyle,
                     ),
                   ],
@@ -125,7 +107,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "$weatherMessage in $cityName!",
+                  '${updateWeatherData.weatherMessage} in ${updateWeatherData.cityName}',
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
