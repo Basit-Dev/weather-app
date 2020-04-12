@@ -28,6 +28,8 @@ class _LocationScreenState extends State<LocationScreen> {
 
   // We use dynamic as type because weatherData is a var.
   void updateUI(dynamic weatherData) {
+    // 3. lon/lat stored in weatherData from push
+    // 8A city stored in weatherData from cityWeatherData
     setState(() {
       if (weatherData == null) {
         temperture = 0;
@@ -44,6 +46,8 @@ class _LocationScreenState extends State<LocationScreen> {
       var condition = weatherData['weather'][0]['id'];
       weatherIcon = weatherModel.getWeatherIcon(condition);
       cityName = weatherData['name'];
+      // 4. After the above is processed the location_screen displays the da.ta in the appropriate text fields
+      // 9A After the above is processed cityName is displayed in the city text field.
     });
   }
 
@@ -78,7 +82,9 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   FlatButton(
+                    // 1A. When we press this button we go to the city_screen
                     onPressed: () async {
+                      // 4A The city_name value is passed into typedNamed
                       var typedNamed = await Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -88,8 +94,10 @@ class _LocationScreenState extends State<LocationScreen> {
                         ),
                       );
                       if (typedNamed != null) {
-                        var weatherData = await weatherModel.getCityWeather(typedNamed);
-                        updateUI(weatherData);
+                        // 5A TypeNamed gets passed to the getCityWeather method
+                        var cityWeatherData = await weatherModel.getCityWeather(typedNamed);
+                        // 7A weatherData now holds the NetworkHelper url which gets passed to the updateUI method
+                        updateUI(cityWeatherData);
                       }
                     },
                     child: Icon(

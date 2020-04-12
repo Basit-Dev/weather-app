@@ -18,7 +18,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future getLocationData() async {
     WeatherModel weatherModal = WeatherModel();
     // we can also use inline method call without creating an instance variable : var weatherData = await weatherModal().getLocationWeather();
-    var weatherData = await weatherModal.getLocationWeather();
+    var weatherData = await weatherModal.getLocationWeather(); // 1. gets lon/lat from getLocationWeather
+    print('getLocationWeather Initilised =  WeatherData');
 
     Navigator.push(
       context,
@@ -30,7 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
-  // Loads the spinner
+  // 2. Loads the spinner and when data received the navigator push goes to the location screen.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

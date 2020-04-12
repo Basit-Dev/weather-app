@@ -40,7 +40,8 @@ class _CityScreenState extends State<CityScreen> {
                 child: TextField(
                   style: TextStyle(color: Colors.black, fontSize: 24.0, fontWeight: FontWeight.bold),
                   decoration: kInputDecoration,
-                  // When text is inputted this onChanged call back function saves the text in the value parameter.
+                  // 2A. When text is inputted this onChanged call back function saves the text in the value
+                  // parameter which is then passed to cityName
                   onChanged: (value) {
                     cityName = value;
                   },
@@ -48,6 +49,8 @@ class _CityScreenState extends State<CityScreen> {
               ),
               FlatButton(
                 onPressed: () {
+                  // 3A The value is now stored in cityName and when button pressed
+                  // the navigator closes the city_screen page and goes to the location_screen page.
                   Navigator.pop(context, cityName);
                 },
                 child: Text(
