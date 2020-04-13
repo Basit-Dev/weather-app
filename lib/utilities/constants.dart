@@ -20,17 +20,14 @@ const kConditionTextStyle = TextStyle(
 );
 
 const kInputDecoration = InputDecoration(
-    border: OutlineInputBorder(
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+  border: OutlineInputBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(10.0),
+        Radius.circular(6.0),
       ),
-      borderSide: BorderSide.none,
-    ),
-    hintText: 'Enter City name',
-    hintStyle: TextStyle(color: Colors.grey),
-    filled: true,
-    fillColor: Colors.white,
-    icon: Icon(
-      Icons.location_city,
-      color: Colors.white,
-    ));
+      borderSide: BorderSide.none),
+  hintText: 'Enter City Name',
+  hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Spartan MB', fontSize: 20.0),
+  filled: true,
+  fillColor: Colors.white,
+);

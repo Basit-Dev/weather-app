@@ -33,26 +33,139 @@ class _LocationScreenState extends State<LocationScreen> {
     });
   }
 
+  bool pressed = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('images/cloudy_background.jpg'),
-            fit: BoxFit.cover,
+            //fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.8), BlendMode.dstATop),
           ),
         ),
-        constraints: BoxConstraints.expand(),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 80.0),
+              child: Row(
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        pressed = true;
+                      });
+                    },
+                    child: Icon(
+                      Icons.search,
+                      size: 50.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  pressed
+                      ? Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 20.0),
+                            child: TextField(
+                              style: TextStyle(color: Colors.black, fontSize: 22.0, fontWeight: FontWeight.bold),
+                              decoration: kInputDecoration,
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20.0),
+              child: Center(
+                child: Text(
+                  '${updateWeatherData.weatherIcon}',
+                  style: kConditionTextStyle,
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                '${updateWeatherData.temperture}°',
+                style: kTempTextStyle,
+              ),
+            ),
+            Container(
+//color: Colors.brown,
+              height: 80.0,
+              child: ListView(
+                scrollDirection: Axis.vertical,
+                children: <Widget>[
+                  Container(
+                    width: 80.0,
+                    color: Colors.red,
+                  ),
+                  Container(
+                    width: 80.0,
+                    color: Colors.red,
+                  ),
+                  Container(
+                    width: 80.0,
+                    color: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: EdgeInsets.only(right: 15.0),
+                child: Text(
+                  '${updateWeatherData.weatherMessage} in ${updateWeatherData.cityName}',
+                  textAlign: TextAlign.right,
+                  style: kMessageTextStyle,
+                ),
+              ),
+            ),
+          ],
+        ),
+
+        /*child: Container(
+          child: Row(
             children: <Widget>[
-              Row(
+              FlatButton(
+                onPressed: () {
+                  setState(() {
+                    pressed = true;
+                  });
+                },
+                child: Icon(
+                  Icons.search,
+                  size: 50.0,
+                  color: Colors.white,
+                ),
+              ),
+              pressed
+                  ? Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20.0),
+                        child: TextField(
+                          style: TextStyle(color: Colors.black, fontSize: 22.0, fontWeight: FontWeight.bold),
+                          decoration: kInputDecoration,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+            ],
+          ),
+        ),*/
+      ),
+    );
+  }
+}
+
+/* Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
+                  // Button to get the GPS location manually.
                   FlatButton(
                     onPressed: () async {
                       var weatherData = await weatherModel.getLocationWeather();
@@ -63,6 +176,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       size: 50.0,
                     ),
                   ),
+                  // Button to navigate to the city screen.
                   FlatButton(
                     // 1A. When we press this button we go to the city_screen
                     onPressed: () async {
@@ -88,34 +202,4 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                 ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      '${updateWeatherData.temperture}°',
-                      style: kTempTextStyle,
-                    ),
-                    Text(
-                      '${updateWeatherData.weatherIcon}',
-                      style: kConditionTextStyle,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 15.0),
-                child: Text(
-                  '${updateWeatherData.weatherMessage} in ${updateWeatherData.cityName}',
-                  textAlign: TextAlign.right,
-                  style: kMessageTextStyle,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+              ),*/
