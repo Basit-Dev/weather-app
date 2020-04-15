@@ -15,6 +15,7 @@ dependencies:
   http: ^0.12.0+4
   flutter_spinkit: ^4.1.2+1
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -30,3 +31,12 @@ flutter:
     fonts:
     - asset: fonts/SpartanMB-Black.otf
       weight: 900
+  - family: Sans Regular
+    fonts:
+    - asset: fonts/OpenSans-Regular.ttf
+  - family: Typold
+    fonts:
+    - asset: fonts/Typold-Extra-Thin.otf
+  - family: Typold Extended
+    fonts:
+    - asset: fonts/Typold-Extended-Thin.otf

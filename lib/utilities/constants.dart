@@ -1,18 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const kTempTextStyle = TextStyle(
-  fontFamily: 'Spartan MB',
+  fontFamily: 'Typold',
+  fontWeight: FontWeight.bold,
   fontSize: 100.0,
 );
 
 const kMessageTextStyle = TextStyle(
-  fontFamily: 'Spartan MB',
-  fontSize: 60.0,
+  fontFamily: 'Typold Extended',
+  fontSize: 52.0,
 );
 
 const kButtonTextStyle = TextStyle(
   fontSize: 30.0,
-  fontFamily: 'Spartan MB',
+  fontFamily: 'Typold Extended',
 );
 
 const kConditionTextStyle = TextStyle(
@@ -27,7 +29,7 @@ const kInputDecoration = InputDecoration(
       ),
       borderSide: BorderSide.none),
   hintText: 'Enter City Name',
-  hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Spartan MB', fontSize: 20.0),
+  hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Typold Extended', fontSize: 20.0),
   filled: true,
   fillColor: Colors.white,
 );
