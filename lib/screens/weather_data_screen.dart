@@ -36,19 +36,19 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void background(String x) {
-    if (theHours > 20 && theHours < 8) {
-      backgroundImage = 'images/night_background.jpg';
-      print(backgroundImage);
-    } else if (theHours > 8 && theHours < 20) {
+    if (updateTime > 8 && updateTime < 16) {
+      backgroundImage = 'images/sunny_background.jpg';
+    } else if (updateTime > 16 && updateTime < 20) {
       backgroundImage = 'images/cloudy_background.jpg';
     } else {
-      backgroundImage = 'images/sunny_background.jpg';
+      backgroundImage = 'images/night_background.jpg';
     }
   }
 
   String backgroundImage;
 
-  var theHours = DateTime.now().hour;
+  static var theHours = DateTime.now();
+  var updateTime = theHours.hour;
 
   bool pressed = false;
   bool listViewVisible = false;
@@ -59,15 +59,15 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(theHours);
+    print('the hour is $updateTime');
     background(backgroundImage);
     return Scaffold(
       body: Container(
-        //constraints: BoxConstraints.expand(),
+        constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('$backgroundImage'),
-            //fit: BoxFit.cover,
+            fit: BoxFit.cover,
             // Opacity the higher the number the less opaque.
             colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.6), BlendMode.dstATop),
           ),
@@ -170,12 +170,16 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   )
                 : SizedBox(),
-            Container(
-              margin: EdgeInsets.all(8.0),
-              child: Text(
-                '${updateWeatherData.weatherMessage} in ${updateWeatherData.cityName}',
-                textAlign: TextAlign.center,
-                style: kMessageTextStyle,
+            Expanded(
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: Text(
+                    '${updateWeatherData.weatherMessage} in ${updateWeatherData.cityName}',
+                    textAlign: TextAlign.center,
+                    style: kMessageTextStyle,
+                  ),
+                ),
               ),
             ),
           ],
